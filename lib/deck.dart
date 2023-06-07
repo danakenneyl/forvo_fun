@@ -4,13 +4,14 @@ import 'package:forvo_fun/menu.dart';
 import 'package:forvo_fun/study.dart';
 
 class Deck extends StatelessWidget {
+  const Deck({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Menu(),
+      drawer: const Menu(),
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('Decks'),
+        title: const Text('Deck'),
       ),
       body: Row(
         children: <Widget>[
@@ -19,7 +20,7 @@ class Deck extends StatelessWidget {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => Cards()
+                  builder: (context) => const Cards()
                 )
               );
             },
@@ -29,7 +30,7 @@ class Deck extends StatelessWidget {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => Study()
+                  builder: (context) => const Study()
                 )
               );
             },

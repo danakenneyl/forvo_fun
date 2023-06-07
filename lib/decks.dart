@@ -4,10 +4,12 @@ import 'package:forvo_fun/menu.dart';
 import 'package:forvo_fun/new_deck.dart';
 
 class Decks extends StatelessWidget {
+  const Decks({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Menu(),
+      drawer: const Menu(),
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('Decks'),
@@ -17,7 +19,7 @@ class Decks extends StatelessWidget {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => Deck()
+                  builder: (context) => const Deck()
                 )
               );
             },
@@ -27,7 +29,7 @@ class Decks extends StatelessWidget {
         onPressed: () => {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => NewDecks()
+              builder: (context) => const NewDecks()
             )
           )
         },  

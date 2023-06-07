@@ -8,6 +8,8 @@ import 'package:forvo_fun/stats.dart';
 class Menu extends StatelessWidget {
   final padding = const EdgeInsets.symmetric(horizontal: 20);
 
+  const Menu({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -62,25 +64,25 @@ void select (BuildContext context, int index){
     case 0:
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => Decks()
+          builder: (context) => const Decks()
         )
       );
     case 1:
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => Read()
+          builder: (context) => const Read()
         )
       );
     case 2:
       Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => Chat()
+            builder: (context) => const Chat()
           )
         );
     case 3:
       Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => Stats()
+            builder: (context) => const Stats()
           )
         );
       break;
