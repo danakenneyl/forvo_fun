@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -91,12 +92,24 @@ class NCard extends StatefulWidget {
 
 class _NCard extends State<NCard> {
   late Future<List<Album>> futureAlbum;
-
+  late AudioPlayer audioPlayer;
+  
   @override
   void initState() {
     super.initState();
-    futureAlbum = fetchAlbum("Hello");
+    audioPlayer = AudioPlayer();
   }
+
+  Future<void> playAudio(String audioUrl) async {
+      int result = await audioPlayer.play(audioUrl);
+      if (result == 1) {
+        // success
+        print('Audio playing');
+      } else {
+        // failure
+        print('Failed to play audio');
+      }
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -106,17 +119,23 @@ class _NCard extends State<NCard> {
         ),
         body: Center(
           child: FutureBuilder<List<Album>>(
-            future: futureAlbum,
+            future: fetchAlbum("Hello"),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 final albums = snapshot.data!;
                 return ListView.builder(
-                itemCount: albums.length,
-                itemBuilder: (context, index) {
-                  final album = albums[index];
-                  return Text(album.sex);
-                },
-              );
+                  itemCount: albums.length,
+                  itemBuilder: (context, index) {
+                    final album = albums[index];
+                    return ListTile(
+                      title: Text(album.pathmp3),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.play_arrow),
+                        onPressed: () => playAudio(album.pathmp3),
+                      ),
+                    );
+                  },
+                );
               } else if (snapshot.hasError) {
                 return Text('${snapshot.error}');
               }
