@@ -116,7 +116,7 @@ class _NCard extends State<NCard> {
                   final album = albums[index];
                   return Text(album.sex);
                 },
-              );;
+              );
               } else if (snapshot.hasError) {
                 return Text('${snapshot.error}');
               }
