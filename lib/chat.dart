@@ -6,7 +6,6 @@ class Chat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       drawer: const Menu(),
       appBar: AppBar(
