@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:convert';
-//import 'package:flutter/material.dart';
+
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class Album {
@@ -40,36 +42,90 @@ class Album {
 
   factory Album.fromJson(Map<String, dynamic> json) {
     return Album(
-      id: json["id"],
-      word: json["word"],
-      original: json["original"],
-      addtime: json["addtime"],
-      hits: json["hits"],
-      username: json["username"],
-      sex: json["sex"],
-      country: json["country"],
-      code: json["code"],
-      langname: json["langname"],
-      pathmp3: json["pathmp3"],
-      pathogg: json["pathogg"],
-      rate: json["rate"],
-      numVotes: json["num_votes"],
-      numPositiveVotes: json["num_positive_votes"],
+      id: json["id"] ?? 0,
+      word: json["word"] ?? "Didn't work 1",
+      original: json["original"] ?? "Didn't work 2",
+      addtime: json["addtime"] ?? "Didn't work 3",
+      hits: json["hits"] ?? 1,
+      username: json["username"] ?? "Didn't work 4",
+      sex: json["sex"] ?? "Didn't work 5",
+      country: json["country"] ?? "Didn't work 6",
+      code: json["code"] ?? "Didn't work 7",
+      langname: json["langname"] ?? "Didn't work 8",
+      pathmp3: json["pathmp3"] ?? "Didn't work 9",
+      pathogg: json["pathogg"] ?? "Didn't work 10",
+      rate: json["rate"] ?? 2,
+      numVotes: json["num_votes"] ?? 3,
+      numPositiveVotes: json["num_positive_votes"] ?? 4,
     );
   }
 }
 
-Future<Album> fetchAlbum() async {
-  final response = await http
-      .get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'));
+Future<List<Album>> fetchAlbum(String word) async {
+  final apiKey = 'Nope'; // Replace with your Forvo API key
+  final languageCode = 'ko'; 
+
+  final url = Uri.parse('https://apifree.forvo.com/key/$apiKey/format/json/action/word-pronunciations/word/$word/language/$languageCode/limit/1');
+  final response = await http.get(url);
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    return Album.fromJson(jsonDecode(response.body));
+    final jsonBody = jsonDecode(response.body);
+    final items = jsonBody['items'] as List<dynamic>;
+    return items.map((item) => Album.fromJson(item)).toList();
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
     throw Exception('Failed to load album');
+  }
+}
+
+
+class NCard extends StatefulWidget {
+  const NCard({super.key});
+
+  @override
+  State<NCard> createState() => _NCard();
+}
+
+class _NCard extends State<NCard> {
+  late Future<List<Album>> futureAlbum;
+
+  @override
+  void initState() {
+    super.initState();
+    futureAlbum = fetchAlbum("Hello");
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Fetch Data Example'),
+        ),
+        body: Center(
+          child: FutureBuilder<List<Album>>(
+            future: futureAlbum,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final albums = snapshot.data!;
+                return ListView.builder(
+                itemCount: albums.length,
+                itemBuilder: (context, index) {
+                  final album = albums[index];
+                  return Text(album.sex);
+                },
+              );;
+              } else if (snapshot.hasError) {
+                return Text('${snapshot.error}');
+              }
+
+              // By default, show a loading spinner.
+              return const CircularProgressIndicator();
+            },
+          ),
+        ),
+    );
   }
 }

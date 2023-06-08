@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:forvo_fun/api_call.dart';
 import 'package:forvo_fun/menu.dart';
-import 'package:forvo_fun/new_card.dart';
+//import 'package:forvo_fun/new_card.dart';
 
 class Cards extends StatelessWidget {
   const Cards({super.key});
@@ -17,7 +18,7 @@ class Cards extends StatelessWidget {
         onPressed: () => {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => const NewCards()
+              builder: (context) => const NCard()
             )
           )
         },  
